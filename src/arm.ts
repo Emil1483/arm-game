@@ -2,12 +2,12 @@ import { Vector } from 'vector2d'
 import { pressing } from './main'
 
 export class Arm {
-    private child: Arm | undefined
+    public child: Arm | undefined
     private targetSpeed = 0
     private currentSpeed = 0
     private acceleration = 0.04
 
-    constructor(private pos: Vector, private length: number, private angle: number, private speed: number,
+    constructor(public pos: Vector, private length: number, private angle: number, private speed: number,
         private increaseAngleChar: string, private decreaseAngleChar: string, child: Arm | undefined) {
         this.pos = pos
         this.length = length
@@ -19,9 +19,18 @@ export class Arm {
 
     get end(): Vector {
         const len = new Vector(Math.cos(this.angle), Math.sin(this.angle))
-        this.pos.clone
         const end = this.pos.clone().add(len.multiplyByScalar(this.length))
         return new Vector(end.x, end.y)
+    }
+
+    get totalLength(): number {
+        let result = this.length
+        let currentChild = this.child
+        while (currentChild) {
+            result += currentChild.length
+            currentChild = currentChild.child
+        }
+        return result
     }
 
     update() {
