@@ -1,4 +1,5 @@
 import { Vector } from 'vector2d'
+import { Arm } from './arm'
 
 const canvas = document.querySelector('canvas')!
 const c = canvas.getContext('2d')!
@@ -6,34 +7,48 @@ const c = canvas.getContext('2d')!
 canvas.width = innerWidth
 canvas.height = innerHeight
 
-class Arm {
-    private pos: Vector
-    private length: number
-    private angle: number
+const keysPressed: Array<string> = []
 
-    constructor(pos: Vector, length: number, angle: number) {
-        this.pos = pos
-        this.length = length
-        this.angle = angle
+addEventListener('keydown', (event) => {
+    const index = keysPressed.indexOf(event.key)
+    if (index == -1) {
+        keysPressed.push(event.key)
     }
+})
+addEventListener('keyup', (event) => {
+    const index = keysPressed.indexOf(event.key)
+    keysPressed.splice(index, 1)
+})
 
-    show() {
-        const len = new Vector(Math.cos(this.angle), Math.sin(this.angle))
-        const end = this.pos.add(len.multiplyByScalar(this.length))
-
-        c.beginPath()
-        c.moveTo(this.pos.x, this.pos.y)
-        c.lineTo(end.x, end.y)
-        c.stroke()
-    }
+export function pressing(char: string): boolean {
+    const index = keysPressed.map((c) => c.toLowerCase()).indexOf(char)
+    return index != -1
 }
 
 const arm = new Arm(
     new Vector(canvas.width / 2, canvas.height / 2),
-    100,
+    canvas.width / 4,
     0,
+    0.01,
+    'q', 'w',
+    new Arm(
+        new Vector(0, 0),
+        canvas.height / 4,
+        -Math.PI / 4,
+        0.015,
+        'o', 'p',
+        undefined,
+    ),
 )
 
-console.log(arm)
+function draw() {
+    requestAnimationFrame(draw)
 
-arm.show()
+    c.fillStyle = 'black'
+    c.fillRect(0, 0, canvas.width, canvas.height)
+
+    arm.update()
+    arm.show(c)
+}
+
+draw()
