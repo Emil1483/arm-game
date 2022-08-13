@@ -3,6 +3,9 @@ import { Arm } from './arm'
 import { Target } from './target'
 
 const canvas = document.querySelector('canvas')!
+const modalElement = document.querySelector<HTMLElement>('#modal')!
+const startGameButton = document.querySelector('#startGame')!
+
 const c = canvas.getContext('2d')!
 
 canvas.width = innerWidth
@@ -22,6 +25,10 @@ addEventListener('keydown', (event) => {
 addEventListener('keyup', (event) => {
     const index = keysPressed.indexOf(event.key)
     keysPressed.splice(index, 1)
+})
+
+startGameButton.addEventListener('click', () => {
+    modalElement.style.display = 'none'
 })
 
 export function pressing(char: string): boolean {

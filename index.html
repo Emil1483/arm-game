@@ -7,10 +7,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Arm Game</title>
     <script src="dist/bundle.js" defer></script>
+    <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="./style.css" />
 </head>
 
 <body>
+    <div class="fixed inset-0 flex items-center justify-center" id="modal">
+        <div class="bg-white max-w-md w-full p-6 text-center rounded-lg">
+            <h1 class="text-4xl font-bold leading-none">Hi, and thanks for playing my game!</h1>
+            <p class="text-sm text-gray-700 mb-6 mt-6">Use the keys Q, W, O, and P to move the arm, try to move
+                the end of the arm to the red circle.</p>
+            <div>
+                <button class="bg-blue-500 text-white w-full py-3 rounded-full text-sm" id="startGame">Start
+                    Game</button>
+            </div>
+        </div>
+    </div>
     <canvas></canvas>
 </body>
 
